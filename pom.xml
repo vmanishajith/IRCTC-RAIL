@@ -45,12 +45,15 @@
 			<artifactId>postgresql</artifactId>
 			<version>42.3.1</version>
 		</dependency>
-		<!-- guava dependency for SHA-256 hashing for password encryption-->
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>31.0.1-jre</version>
-		</dependency>
+		<!--  -->
+		<!-- bouncycastle is a security provider to implement AES/GCM encryption/decryption of data  -->
+<dependency>
+    <groupId>org.bouncycastle</groupId>
+    <artifactId>bcprov-jdk15on</artifactId>
+    <version>1.70</version>
+</dependency>
+
+		
 	</dependencies>
 	<build>
 		<plugins>
@@ -61,3 +64,5 @@
 		</plugins>
 	</build>
 </project>
+
+
