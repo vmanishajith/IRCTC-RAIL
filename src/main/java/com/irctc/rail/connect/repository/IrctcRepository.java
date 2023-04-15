@@ -8,4 +8,5 @@ import com.irctc.rail.connect.User;
 @Repository
 public interface IrctcRepository extends JpaRepository<User, Integer>{
 
+	User findByName(String name);
 }

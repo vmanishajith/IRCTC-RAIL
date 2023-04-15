@@ -1,18 +1,14 @@
 package com.irctc.rail.connect.service;
 
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
 import java.security.Security;
 import java.util.Base64;
 
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.GCMParameterSpec;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -28,27 +24,75 @@ public class IrctcService {
 	@Autowired
 	IrctcRepository irctcRepository;
 
-	int KEY_LENGTH_BYTE = 16;
 
-	public String saveUserLogin(User saveUser) throws NoSuchAlgorithmException, NoSuchPaddingException,
-			InvalidKeyException, IllegalBlockSizeException, BadPaddingException, NoSuchProviderException {
-		Security.addProvider(new BouncyCastleProvider());
-		byte[] keyBytes = new byte[KEY_LENGTH_BYTE];
-		SecureRandom secureRandom = new SecureRandom();
-		secureRandom.nextBytes(keyBytes);
-		SecretKey key = new SecretKeySpec(keyBytes, "GCM");
-		Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding", "BC");
-		cipher.init(Cipher.ENCRYPT_MODE, key);
-		saveUser.setPassword(Base64.getEncoder()
-				.encodeToString(cipher.doFinal(saveUser.getPassword().getBytes(StandardCharsets.UTF_8))));
+	public String saveUserLogin(User saveUser) throws Exception {
+		
+		
 		irctcRepository.save(saveUser);
+		
 		return "Login information of " + saveUser.getName() + " is saved.";
 
 	}
+	
 
 	public User irctfetchUserDetails(int userId) {
 		return irctcRepository.findById(userId).get();
 
 	}
+	
+	//@SuppressWarnings("unused")
+	public String loginUser(User user) throws Exception  {
+		String password;
+		System.out.println("logged in name "+user.getName() +" and password "+user.getPassword());
+		
+		User existingUser=null;
+		existingUser=irctcRepository.findByName(user.getName());
+		
+		System.out.println("existing user name  "+existingUser.getName() );
+		//System.out.println("existing user pwd "+ existingUser.getPassword());
+		
+		if(existingUser != null ) {
+			System.out.println("username is present in db");
+			password= existingUser.getPassword();
+		
+			 if(password.equals(user.getPassword())) {
+				 return "Existing User. Logging you in ...";
+			 }else {
+				 return "Password is incorrect";
+			 }
+			
+			
+		}
+			return "Not Existing User. Please Register to IRCTC";
+	
+	}
+	
+	/*
+	 * private byte[] encrypt(String data) throws InvalidKeyException,
+	 * IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException,
+	 * NoSuchProviderException, NoSuchPaddingException {
+	 * 
+	 * Security.addProvider(new BouncyCastleProvider()); byte[] keyBytes = new
+	 * byte[KEY_LENGTH_BYTE]; SecureRandom secureRandom = new SecureRandom();
+	 * secureRandom.nextBytes(keyBytes); SecretKey key = new SecretKeySpec(keyBytes,
+	 * "GCM"); Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding", "BC");
+	 * cipher.init(Cipher.ENCRYPT_MODE, key); return
+	 * cipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
+	 * 
+	 * }
+	 * 
+	 * private String decrypt(String data) throws NoSuchAlgorithmException,
+	 * NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException,
+	 * BadPaddingException, NoSuchProviderException,
+	 * InvalidAlgorithmParameterException { System.out.println("decrypt pwd ---   "+
+	 * data); Security.addProvider(new BouncyCastleProvider()); byte[] keyBytes =
+	 * new byte[KEY_LENGTH_BYTE]; SecureRandom secureRandom = new SecureRandom();
+	 * secureRandom.nextBytes(keyBytes); SecretKey key = new SecretKeySpec(keyBytes,
+	 * "GCM"); Cipher cipher=Cipher.getInstance("AES/GCM/NoPadding","BC");
+	 * cipher.init(Cipher.DECRYPT_MODE,key);
+	 * 
+	 * byte[] plainText = cipher.doFinal(Base64.getDecoder().decode(data)); return
+	 * new String(plainText); }
+	 */
 
 }

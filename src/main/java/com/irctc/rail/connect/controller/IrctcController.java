@@ -1,13 +1,5 @@
 package com.irctc.rail.connect.controller;
 
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,8 +26,13 @@ public class IrctcController {
 	}
 	
 	@PostMapping("/saveUserLogin")
-	public String saveUserLogin(@RequestBody User saveUser) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, NoSuchProviderException {
+	public String saveUserLogin(@RequestBody User saveUser) throws Exception {
 		return irctcService.saveUserLogin(saveUser);
+	}
+	
+	@PostMapping("/loginUser")
+	public String loginUser(@RequestBody User user) throws Exception {
+		return irctcService.loginUser(user);		
 	}
 
 }

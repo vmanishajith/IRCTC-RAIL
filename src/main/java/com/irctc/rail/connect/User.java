@@ -12,13 +12,17 @@ import lombok.Data;
 @Entity
 @Table(name= "user_table")
 public class User {
-	
+	public User(){
+		
+	}
 	@Id
 	@GeneratedValue
 	private int id;
 	
 	private String name;
+	
 	private String password;
+
 
 	public String getPassword() {
 		return password;
@@ -35,6 +39,8 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	
 	
 
 }
