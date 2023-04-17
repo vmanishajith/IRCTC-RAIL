@@ -1,6 +1,10 @@
 package com.irctc.rail.connect.controller;
 
+
+
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,8 +16,11 @@ import com.irctc.rail.connect.User;
 import com.irctc.rail.connect.repository.IrctcRepository;
 import com.irctc.rail.connect.service.IrctcService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/irctc")
+@Validated
 public class IrctcController {
 	
 	@Autowired
@@ -26,7 +33,7 @@ public class IrctcController {
 	}
 	
 	@PostMapping("/saveUserLogin")
-	public String saveUserLogin(@RequestBody User saveUser) throws Exception {
+	public String saveUserLogin(@RequestBody @Valid  User saveUser) throws Exception {
 		return irctcService.saveUserLogin(saveUser);
 	}
 	

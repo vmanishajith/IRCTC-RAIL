@@ -11,7 +11,6 @@ import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +39,6 @@ public class IrctcService {
 
 	}
 	
-	//@SuppressWarnings("unused")
 	public String loginUser(User user) throws Exception  {
 		String password;
 		System.out.println("logged in name "+user.getName() +" and password "+user.getPassword());
@@ -67,32 +65,5 @@ public class IrctcService {
 	
 	}
 	
-	/*
-	 * private byte[] encrypt(String data) throws InvalidKeyException,
-	 * IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException,
-	 * NoSuchProviderException, NoSuchPaddingException {
-	 * 
-	 * Security.addProvider(new BouncyCastleProvider()); byte[] keyBytes = new
-	 * byte[KEY_LENGTH_BYTE]; SecureRandom secureRandom = new SecureRandom();
-	 * secureRandom.nextBytes(keyBytes); SecretKey key = new SecretKeySpec(keyBytes,
-	 * "GCM"); Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding", "BC");
-	 * cipher.init(Cipher.ENCRYPT_MODE, key); return
-	 * cipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
-	 * 
-	 * }
-	 * 
-	 * private String decrypt(String data) throws NoSuchAlgorithmException,
-	 * NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException,
-	 * BadPaddingException, NoSuchProviderException,
-	 * InvalidAlgorithmParameterException { System.out.println("decrypt pwd ---   "+
-	 * data); Security.addProvider(new BouncyCastleProvider()); byte[] keyBytes =
-	 * new byte[KEY_LENGTH_BYTE]; SecureRandom secureRandom = new SecureRandom();
-	 * secureRandom.nextBytes(keyBytes); SecretKey key = new SecretKeySpec(keyBytes,
-	 * "GCM"); Cipher cipher=Cipher.getInstance("AES/GCM/NoPadding","BC");
-	 * cipher.init(Cipher.DECRYPT_MODE,key);
-	 * 
-	 * byte[] plainText = cipher.doFinal(Base64.getDecoder().decode(data)); return
-	 * new String(plainText); }
-	 */
-
+	
 }
