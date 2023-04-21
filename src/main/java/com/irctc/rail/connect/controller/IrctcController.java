@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.irctc.rail.connect.User;
-import com.irctc.rail.connect.repository.IrctcRepository;
 import com.irctc.rail.connect.service.IrctcService;
 
 import jakarta.validation.Valid;
@@ -26,20 +25,24 @@ public class IrctcController {
 	@Autowired
 	IrctcService irctcService;
 	
-	@GetMapping("/fetchUserDetails")
-	public User fetchUserDetails(@RequestParam int userId) {
-		return	irctcService.irctfetchUserDetails(userId);
-		
+	@PostMapping("/registerUser")
+	public String registerUser(@RequestBody @Valid  User registerUser) {
+		return irctcService.registerUser(registerUser);
 	}
 	
-	@PostMapping("/saveUserLogin")
-	public String saveUserLogin(@RequestBody @Valid  User saveUser) throws Exception {
-		return irctcService.saveUserLogin(saveUser);
+	@GetMapping("/fetchUserDetails")
+	public User fetchUserDetails(@RequestParam int userId) {
+		return	irctcService.fetchUserDetails(userId);		
 	}
 	
 	@PostMapping("/loginUser")
-	public String loginUser(@RequestBody User user) throws Exception {
+	public String loginUser(@RequestBody User user)  {
 		return irctcService.loginUser(user);		
+	}
+	
+	@PostMapping("/sendMail")
+	public String sendMail() {
+		return irctcService.sendMail();
 	}
 
 }
