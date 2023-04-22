@@ -1,15 +1,19 @@
 package com.irctc.rail.connect.service;
 
+import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.apache.logging.log4j.Logger;
 
 import com.irctc.rail.connect.User;
 import com.irctc.rail.connect.repository.IrctcRepository;
 
 @Service
 public class IrctcService {
+	
+	private static final Logger LOGGER=LogManager.getLogger(IrctcService.class);
 
 	@Autowired
 	IrctcRepository irctcRepository;
@@ -24,7 +28,12 @@ public class IrctcService {
 	}
 
 	public User fetchUserDetails(int userId) {
-		return irctcRepository.findById(userId).get();
+		LOGGER.info("Fetching Irctc user details ");
+		try {
+			return irctcRepository.findById(userId).get();
+		} catch (Exception e) {
+			throw new RuntimeException("Error while fetch Irctc user details");
+		}
 	}
 	
 	public String loginUser(User user)  {
