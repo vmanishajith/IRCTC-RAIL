@@ -2,7 +2,9 @@ package com.irctc.rail.connect.controller;
 
 
 
+import org.apache.logging.log4j.Logger;
 
+import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +24,8 @@ import jakarta.validation.Valid;
 @Validated
 public class IrctcController {
 	
+	private static final Logger LOGGER=LogManager.getLogger(IrctcController.class);
+	
 	@Autowired
 	IrctcService irctcService;
 	
@@ -32,6 +36,7 @@ public class IrctcController {
 	
 	@GetMapping("/fetchUserDetails")
 	public User fetchUserDetails(@RequestParam int userId) {
+		LOGGER.info("FETCH USER FROM PG ADMIN");
 		return	irctcService.fetchUserDetails(userId);		
 	}
 	
